@@ -19,21 +19,36 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\PenilaianController; 
 use App\Http\Controllers\DestinasiController;  
 use App\Http\Controllers\PesanTiketController; 
+use App\Http\Controllers\ProfilPTWController;
+use App\Http\Controllers\TicketPTWController;
+use App\Http\Controllers\AddTicketPTWController;
+use App\Http\Controllers\EditTicketPTWController;
 
 
 //untuk autentikasi - umum
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login/auth', [LoginController::class, 'authenticate'])->name('login.auth');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 //untuk pemilik tempat wisata (PTW) - Taqi
-Route::get('/dashboard-ptw', [DashboardPTWController::class, 'index'])->name('dashboard.ptw');
-Route::get('/properties-ptw', [PropertyPTWController::class, 'index'])->name('properties.ptw');
-Route::get('/add-property-ptw', [AddPropertyPTWController::class, 'index'])->name('add.property.ptw');
-Route::post('/add-property-ptw', [AddPropertyPTWController::class, 'store'])->name('store.property.ptw');
-Route::get('/edit-property-ptw/{id}', [EditPropertyPTWController::class, 'edit'])->name('edit.property');
-Route::post('/edit-property-ptw/{id}', [EditPropertyPTWController::class, 'update'])->name('update.property.ptw');
-Route::delete('/delete-property-ptw/{id}', [EditPropertyPTWController::class, 'destroy'])->name('delete.property.ptw');
+Route::middleware(['auth', 'cekRole:pemilik'])->group(function () {
+    Route::get('/dashboard-ptw', [DashboardPTWController::class, 'index'])->name('dashboard.ptw');
+    Route::get('/profile-ptw', [ProfilPTWController::class, 'index'])->name('profil.ptw');
+    Route::get('/profile-ptw/edit', [ProfilPTWController::class, 'edit'])->name('profil.ptw.edit');
+    Route::post('/profile-ptw/update', [ProfilPTWController::class, 'update'])->name('profil.ptw.update');
+    Route::get('/properties-ptw', [PropertyPTWController::class, 'index'])->name('properties.ptw');
+    Route::delete('/properties-ptw/{id}', [PropertyPTWController::class, 'destroy'])->name('properties.ptw.destroy');
+    Route::get('/add-property-ptw', [AddPropertyPTWController::class, 'index'])->name('add.property.ptw');
+    Route::post('/add-property-ptw/store', [AddPropertyPTWController::class, 'store'])->name('add.property.store');
+    Route::get('/properties-ptw/{id}/edit', [EditPropertyPTWController::class, 'edit'])->name('properties.ptw.edit');
+    Route::post('/properties-ptw/{id}/update', [EditPropertyPTWController::class, 'update'])->name('properties.ptw.update');
+    Route::get('/properties-ptw/{id}/tickets', [TicketPTWController::class, 'index'])->name('properties.ptw.tickets');
+    Route::delete('/tickets-ptw/{id}', [TicketPTWController::class, 'destroy'])->name('tickets.ptw.destroy');
+    Route::get('/properties-ptw/{id}/tickets/create', [AddTicketPTWController::class, 'create'])->name('tickets.ptw.create');
+    Route::post('/properties-ptw/{id}/tickets/store', [AddTicketPTWController::class, 'store'])->name('tickets.ptw.store');
+    Route::get('/tickets-ptw/{id}/edit', [EditTicketPTWController::class, 'edit'])->name('tickets.ptw.edit');
+    Route::post('/tickets-ptw/{id}/update', [EditTicketPTWController::class, 'update'])->name('tickets.ptw.update');
+});
 
 
 // ----------------------------------------------------

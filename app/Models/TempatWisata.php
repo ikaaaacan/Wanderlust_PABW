@@ -2,41 +2,46 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TempatWisata extends Model {
     use HasFactory;
 
-    protected $table = 'tempat_wisatas';
-    protected $primaryKey = 'id_tempat';
-    // Menghapus 'harga_tiket' yang tidak diperlukan karena harga diambil dari paket_wisatas
+    protected $table = 'tempat_wisata';
+
+    protected $primaryKey = 'id_wisata';
+
     protected $fillable = [
-        'nama_tempat',
-        'alamat_tempat',
-        'jenis_tempat',
+        'id_ptw',
+        'nama_wisata',
+        'alamat_wisata',
+        'kota',
+        'jenis_wisata',
         'waktu_buka',
         'waktu_tutup',
         'deskripsi',
+        'status_wisata',
+        'catatan_revisi'
     ];
 
-    public function pemilikTempatWisata() {
-        return $this->belongsTo(PemilikTempatWisata::class, 'id_ptw', 'id_ptw');
+    public function pemilik() {
+        return $this->belongsTo(PemilikTempatWisata::class, 'id_ptw');
     }
 
-    public function fotoTempatWisatas() {
-        return $this->hasMany(FotoTempatWisata::class, 'id_tempat', 'id_tempat');
+    public function tiketTempatWisata() {
+        return $this->hasMany(TiketTempatWisata::class, 'id_wisata');
     }
 
-    public function paketWisatas() {
-        return $this->hasMany(PaketWisata::class, 'id_tempat', 'id_tempat');
+    public function fotoTempatWisata() {
+        return $this->hasMany(FotoTempatWisata::class, 'id_wisata');
     }
 
-    public function penilaians() {
-        return $this->hasMany(Penilaian::class, 'id_tempat', 'id_tempat');
+    public function penilaian() {
+        return $this->hasMany(Penilaian::class, 'id_wisata');
     }
 
-    public function bookmarks() {
-        return $this->hasMany(Bookmark::class, 'id_tempat', 'id_tempat');
+    public function bookmark() {
+        return $this->hasMany(Bookmark::class, 'id_wisata');
     }
 }

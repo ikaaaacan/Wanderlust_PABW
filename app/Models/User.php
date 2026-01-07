@@ -2,26 +2,39 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable {
+    use HasApiTokens, HasFactory, Notifiable;
 
-    use HasFactory, Notifiable;
     protected $primaryKey = 'id_user';
-    protected $fillable = ['nama','email','no_telepon','password','foto_profil',];
-    protected $hidden = ['password','remember_token',];
+
+    protected $fillable = [
+        'nama',
+        'email',
+        'nomor_telepon',
+        'password',
+        'peran',
+        'foto_profil',
+    ];
+
+    protected $hidden = [
+        'password',
+    ];
 
     public function administrator() {
-        return $this->hasOne(Administrator::class, 'id_user', 'id_user');
+        return $this->hasOne(Administrator::class, 'id_user');
     }
 
-    public function wisatawan() {
-        return $this->hasOne(Wisatawan::class, 'id_user', 'id_user');
+    public function wisatawan(){
+        return $this->hasOne(Wisatawan::class, 'id_user');
     }
 
     public function pemilikTempatWisata() {
-        return $this->hasOne(PemilikTempatWisata::class, 'id_user', 'id_user');
+        return $this->hasOne(PemilikTempatWisata::class, 'id_user');
     }
 }
+

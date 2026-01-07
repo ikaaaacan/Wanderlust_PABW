@@ -2,22 +2,33 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Penilaian extends Model {
     use HasFactory;
 
-    protected $table = 'penilaians';
+    protected $table = 'penilaian';
+
     protected $primaryKey = 'id_penilaian';
-    protected $fillable = ['penilaian','ulasan','tanggal_penilaian','status_penilaian','judul_ulasan','foto_ulasan'];
-    public $timestamps = false;
+
+    protected $fillable = [
+        'id_wisatawan',
+        'id_wisata',
+        'penilaian',
+        'ulasan',
+        'judul_ulasan',
+        'foto_ulasan',
+        'tanggal_penilaian',
+        'status_penilaian'
+    ];
 
     public function wisatawan() {
-        return $this->belongsTo(Wisatawan::class, 'id_wisatawan', 'id_wisatawan');
+        return $this->belongsTo(Wisatawan::class, 'id_wisatawan');
     }
 
     public function tempatWisata() {
-        return $this->belongsTo(TempatWisata::class, 'id_tempat', 'id_tempat');
+        return $this->belongsTo(TempatWisata::class, 'id_wisata');
     }
 }
+

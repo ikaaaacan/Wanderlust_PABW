@@ -2,11 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\PemilikTempatWisata;
 use Illuminate\Database\Seeder;
+use App\Models\PemilikTempatWisata;
+use App\Models\User;
 
 class PemilikTempatWisataSeeder extends Seeder {
     public function run(): void {
-        PemilikTempatWisata::factory(10)->create();
+        $users = User::where('peran', 'pemilik')->get();
+
+        foreach ($users as $user) {
+            PemilikTempatWisata::factory()->create([
+                'id_user' => $user->id_user
+            ]);
+        }
     }
 }

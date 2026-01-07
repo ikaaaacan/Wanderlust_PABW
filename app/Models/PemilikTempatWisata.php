@@ -2,22 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PemilikTempatWisata extends Model
-{
+class PemilikTempatWisata extends Model {
     use HasFactory;
 
-    protected $table = 'pemilik_tempat_wisatas';
+    protected $table = 'pemilik_tempat_wisata';
+
     protected $primaryKey = 'id_ptw';
-    protected $fillable = ['npwp','siu','alamat_bisnis',];
+
+    protected $fillable = [
+        'id_user',
+        'jabatan',
+        'nama_organisasi',
+        'alamat_bisnis',
+        'npwp',
+        'siu',
+        'foto_organisasi',
+        'status_akun',
+        'catatan_revisi'
+    ];
 
     public function user() {
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
+        return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function tempatWisatas() {
-        return $this->hasMany(TempatWisata::class, 'id_ptw', 'id_ptw');
+    public function tempatWisata() {
+        return $this->hasMany(TempatWisata::class, 'id_ptw');
     }
 }
+

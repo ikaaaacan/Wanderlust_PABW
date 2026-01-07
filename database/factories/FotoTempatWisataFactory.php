@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\TempatWisata;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\TempatWisata;
 
 class FotoTempatWisataFactory extends Factory {
     public function definition(): array {
         return [
-            'id_tempat' => TempatWisata::factory(),
-            'url_foto' => fake()->imageUrl(640, 480, 'tourism', true),
-            'urutan' => fake()->numberBetween(1, 5),
+            'id_wisata' => TempatWisata::factory(),
+            'foto_wisata' => "https://loremflickr.com/640/480/travel?lock=" . $this->faker->unique()->numberBetween(1,9999),
+            'urutan' => 1,
         ];
     }
 }

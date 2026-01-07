@@ -2,18 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pembayaran extends Model {
     use HasFactory;
 
-    protected $table = 'pembayarans';
+    protected $table = 'pembayaran';
+
     protected $primaryKey = 'id_pembayaran';
-    protected $fillable = ['tanggal_bayar','jumlah_pembayaran','metode_pembayaran','status_pembayaran','bukti_pembayaran'];
-    public $timestamps = false;
+
+    protected $fillable = [
+        'id_transaksi',
+        'tanggal_bayar',
+        'jumlah_pembayaran',
+        'metode_pembayaran',
+        'status_pembayaran',
+        'bukti_pembayaran'
+    ];
 
     public function transaksi() {
-        return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id_transaksi');
+        return $this->belongsTo(Transaksi::class, 'id_transaksi');
     }
 }
+

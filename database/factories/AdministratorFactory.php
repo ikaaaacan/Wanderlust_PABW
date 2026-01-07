@@ -2,21 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Administrator;
-use App\Models\User; // Asumsi Administrator terhubung ke User
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
 
-class AdministratorFactory extends Factory
-{
-    protected $model = Administrator::class;
-
-    public function definition(): array
-    {
-        // Asumsi Administrator butuh id_user yang valid
+class AdministratorFactory extends Factory {
+    public function definition(): array {
         return [
-            'id_user' => User::factory(), // Memastikan User dibuat duluan
-            'role' => 'superadmin',
-            // Tambahkan kolom lain jika ada di tabel administrators
+            'id_user' => User::factory()->state(['peran' => 'administrator']),
+            'jabatan' => $this->faker->randomElement(['Admin Sistem', 'Admin Konten', 'Supervisor']),
         ];
     }
 }

@@ -2,21 +2,21 @@
 
 namespace Database\Factories;
 
-use App\Models\TempatWisata;
-use App\Models\Wisatawan;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Wisatawan;
+use App\Models\TempatWisata;
 
 class PenilaianFactory extends Factory {
     public function definition(): array {
         return [
             'id_wisatawan' => Wisatawan::factory(),
-            'id_tempat' => TempatWisata::factory(),
-            'penilaian' => fake()->numberBetween(1, 5),
-            'ulasan' => fake()->paragraph(),
-            'judul_ulasan' => fake()->sentence(3),
-            'foto_ulasan' => fake()->optional()->imageUrl(),
-            'tanggal_penilaian' => fake()->dateTimeThisYear(),
-            'status_penilaian' => fake()->randomElement(['pending', 'approved', 'rejected']),
+            'id_wisata' => TempatWisata::factory(),
+            'penilaian' => $this->faker->numberBetween(1, 5),
+            'ulasan' => $this->faker->paragraph(),
+            'judul_ulasan' => $this->faker->sentence(),
+            'foto_ulasan' => "https://loremflickr.com/640/480/review?lock=" . $this->faker->unique()->numberBetween(1,9999),
+            'tanggal_penilaian' => now()->subDays(rand(0, 100)),
+            'status_penilaian' => $this->faker->randomElement(['aktif', 'nonaktif']),
         ];
     }
 }

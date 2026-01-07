@@ -4,35 +4,23 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder {
-
-    public function run(): void {
-        
+class DatabaseSeeder extends Seeder
+{
+    public function run(): void
+    {
         $this->call([
-            UserSeeder::class, 
-        ]);
-
-        $this->call([
-            // AdministratorSeeder::class, 
+            UserSeeder::class,
+            AdministratorSeeder::class,
             WisatawanSeeder::class,
             PemilikTempatWisataSeeder::class,
-        ]);
-
-        $this->call([
-            TempatWisataSeeder::class, 
-        ]);
-
-        $this->call([
+            TempatWisataSeeder::class,
             FotoTempatWisataSeeder::class,
-            PaketWisataSeeder::class,
-            TopUpSeeder::class,
-            PenilaianSeeder::class,
-            BookmarkSeeder::class,
-        ]);
-
-        $this->call([
+            TiketTempatWisataSeeder::class,
             TransaksiSeeder::class,
             PembayaranSeeder::class,
+            PenilaianSeeder::class,
+            BookmarkSeeder::class,
+            MainUserSeeder::class,
         ]);
     }
 }

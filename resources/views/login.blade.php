@@ -10,12 +10,19 @@
     <div class="login-container">
         <div class="login-box">
             <h1>Sign In</h1>
-            <p class="subtitle">Welcome Back, Traveler</p>
+            <p class="subtitle">Welcome Back!</p>
 
             <form method="POST" action="{{ route('login.auth') }}">
                 @csrf
-                <label>Username</label>
-                <input type="text" name="username" required>
+
+                @if ($errors->any())
+                    <div style="color: red; margin-bottom: 10px; font-size: 0.9em;">
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+                
+                <label>Email</label>
+                <input type="text" name="email" required>
 
                 <label>Password</label>
                 <input type="password" name="password" required>

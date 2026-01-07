@@ -2,11 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Administrator;
 use Illuminate\Database\Seeder;
+use App\Models\Administrator;
+use App\Models\User;
 
 class AdministratorSeeder extends Seeder {
     public function run(): void {
-        Administrator::factory(10)->create();
+        $users = User::where('peran', 'administrator')->get();
+
+        foreach ($users as $user) {
+            Administrator::factory()->create([
+                'id_user' => $user->id_user
+            ]);
+        }
     }
 }

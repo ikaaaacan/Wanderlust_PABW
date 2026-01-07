@@ -3,18 +3,17 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory {
-
     public function definition(): array {
         return [
-            'nama' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'no_telepon' => fake()->unique()->phoneNumber(),
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'nama' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'nomor_telepon' => $this->faker->phoneNumber(),
+            'password' => bcrypt('password'),
+            'peran' => $this->faker->randomElement(['administrator', 'wisatawan', 'pemilik']),
+            'foto_profil' => "https://loremflickr.com/320/320/face?lock=" . $this->faker->unique()->numberBetween(1,9999),
         ];
     }
 }

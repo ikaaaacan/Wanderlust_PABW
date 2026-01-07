@@ -3,54 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
-use App\Models\User; 
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller {
-    
-    // Hapus array private $users yang berisi data hardcoded
 
     public function showLoginForm() {
         return view('login');
     }
 
     public function authenticate(Request $request) {
-        // 1. Validasi input menggunakan 'username' (sesuai nama input form Anda)
-        // Menambahkan validasi 'email' karena input harus berformat email
+
         $credentials = $request->validate([
-            'username' => ['required', 'email'], 
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // 2. Petakan input 'username' dari form ke kunci 'email' untuk Auth::attempt
-        $lookup_credentials = [
-            'email' => $credentials['username'],
-            'password' => $credentials['password'],
-        ];
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        // 3. Verifikasi Kredensial terhadap database (Auth::attempt)
-        if (Auth::guard('wisatawan')->attempt($lookup_credentials)) {
-           // Login Berhasil
-           $request->session()->regenerate();
-    
-           $user = Auth::user(); // User yang sudah di-guard('wisatawan')
+            $user = Auth::user();
 
-            // 4. Redirect berdasarkan Role
-            switch ($user->role ?? 'tourist') { 
-                case 'admin':
+            switch ($user->peran) {
+                case 'administrator':
                     return redirect()->route('dashboard.admin');
-                case 'ptw':
+                case 'pemilik':
                     return redirect()->route('dashboard.ptw');
-                case 'tourist':
+                case 'wisatawan':
                     return redirect()->route('home');
                 default:
-                    return redirect()->route('login');
+                    Auth::logout();
+                    return redirect()->route('login')->withErrors(['email' => 'Peran akun tidak valid.']);
             }
-        } 
-        
-        // Login Gagal
+        }
+
         return back()->withErrors([
-            'email' => 'Kredensial tidak valid atau tidak cocok.',
+            'email' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
 

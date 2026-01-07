@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FotoTempatWisata extends Model {
     use HasFactory;
 
-    protected $table = 'foto_tempat_wisatas';
+    protected $table = 'foto_tempat_wisata';
+
     protected $primaryKey = 'id_foto';
-    protected $fillable = ['url_foto','urutan',];
+
+    protected $fillable = [
+        'id_wisata',
+        'foto_wisata',
+        'urutan'
+    ];
 
     public function tempatWisata() {
-        return $this->belongsTo(TempatWisata::class, 'id_tempat', 'id_tempat');
+        return $this->belongsTo(TempatWisata::class, 'id_wisata');
     }
 }
+
